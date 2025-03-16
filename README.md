@@ -11,7 +11,7 @@
 A meme that captures how I currently feel about my university studies is: 
 ![](https://c.tenor.com/8druEACXtX8AAAAd/tenor.gif)
 
-A meme that captures how I currently feel, now that the semester has started and assignemnts are starting to pile up is: 
+A meme that captures how I currently feel, now that the semester has started and assignments are starting to pile up is: 
 ![](https://media1.tenor.com/m/BUFowdH4YM4AAAAC/working-busy.gif)
 
 Outside of my studies, I also am involved with a non-profit organisation SavY. You can read more about what we do here: [SavY](https://savy.org.nz)
