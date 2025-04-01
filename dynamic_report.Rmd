@@ -11,6 +11,7 @@ library(tidyverse)
 ```{css}
 body {
   color: black
+  font-family: courier
 }
 
 h1 {
@@ -34,7 +35,6 @@ h2 {
 
 The data was collected via Google Form, and stored within the University of Auckland. Analysis will include basic details about the journey, duration, and how the passenger travelled (sitting/standing).
 
-![](AT_bus.jpg)
 ```{r}
 #Data loading and rename
 logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTt9domT2ksrwRd9viKlo1rlL3V-LhIfsVF9fmG7tR_obKXgiB0udJRIZsURB_9kNloVaZuKbRfzHBR/pub?gid=847443871&single=true&output=csv")
