@@ -12,6 +12,7 @@ library(tidyverse)
 body {
   color: black
   font-family: courier
+  background: lightgrey
 }
 
 h1 {
@@ -26,6 +27,13 @@ h2 {
   color: black;
   font-weight: bold;
   padding: 10px
+}
+
+h3 {
+  background-color: lightblue;
+  color: black
+  font-weight: bold
+  padding 10px
 }
 ```
 
