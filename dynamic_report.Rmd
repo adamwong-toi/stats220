@@ -65,7 +65,7 @@ longest_time <- latest_data %>%
   select(duration) %>% 
   max()
 
-av_time <- mean(latest_data$duration)
+av_time <- round(mean(latest_data$duration),2)
 
 route <- latest_data %>% 
   select(route)
