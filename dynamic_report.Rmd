@@ -44,6 +44,17 @@ h3 {
 The data was collected via Google Form, and stored within the University of Auckland. Analysis will include basic details about the journey, duration, and how the passenger travelled (sitting/standing).
 
 ```{r}
+bus <- image_read("https://ouraucklandprodstorage.blob.core.windows.net/cache/0/f/3/f/7/1/0f3f717610918c0a8ff40f5fd2a69b1cad1be5c8.jpg") %>% 
+  image_resize("500x500") %>% 
+  image_annotate("A Typical Auckland Transport Electric Bus used on the 24B/24R Route", 
+                 gravity = "South",
+                 size = 15,
+                 font = "Arial")
+bus
+
+```
+
+```{r}
 #Data loading and rename
 logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTt9domT2ksrwRd9viKlo1rlL3V-LhIfsVF9fmG7tR_obKXgiB0udJRIZsURB_9kNloVaZuKbRfzHBR/pub?gid=847443871&single=true&output=csv")
 latest_data <-logged_data %>% 
