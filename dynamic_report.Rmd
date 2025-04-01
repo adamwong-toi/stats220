@@ -1,0 +1,125 @@
+---
+title: My dynamic report
+output: html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+library(tidyverse)
+```
+
+```{css}
+body {
+  color: black
+}
+
+h1 {
+  background-color: blue;
+  color: white;
+  font-weight: bold;
+  padding: 10px
+}
+
+h2 {
+  background-color: lightblue;
+  color: black;
+  font-weight: bold;
+  padding: 10px
+}
+```
+
+## Busses Up Sandringham Road
+
+### This report will analyse a students daily bus commute up Sandringham Road to the University of Auckland. 
+
+The data was collected via Google Form, and stored within the University of Auckland. Analysis will include basic details about the journey, duration, and how the passenger travelled (sitting/standing).
+
+![](AT_bus.jpg)
+```{r}
+#Data loading and rename
+logged_data <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTt9domT2ksrwRd9viKlo1rlL3V-LhIfsVF9fmG7tR_obKXgiB0udJRIZsURB_9kNloVaZuKbRfzHBR/pub?gid=847443871&single=true&output=csv")
+latest_data <-logged_data %>% 
+  rename(timestamp = 1,
+         route = 2,
+         time_day = 3,
+         sit_stand = 4,
+         duration = 5,
+         thankyou = 6)
+```
+
+
+```{r}
+shortest_time <- latest_data %>% 
+  select(duration) %>% 
+  min()
+
+longest_time <- latest_data %>% 
+  select(duration) %>% 
+  max()
+
+av_time <- mean(latest_data$duration)
+
+route <- latest_data %>% 
+  select(route)
+
+```
+
+### On average, there was a fair distribution of the two routes taken up Sandringham road. 
+
+```{r}
+#route number plot
+route_plot <- ggplot(data = route) + geom_bar(aes(x=route), fill = "#CFFDBC")+
+  labs(title = "Routes Taken Up Sandringham Road", 
+       x = "Route", 
+       y = "Frequency") + theme_bw()
+route_plot
+```
+
+### The average time of the bus journey was **`r av_time`** minutes. 
+
+#### With the shortest journey taking *`r shortest_time`* minutes, and the longest journey being *`r longest_time`* minutes long. 
+
+
+### The time of day traveled ranged through different parts of the day, as shown by the below plot, of the time traveled, by route. 
+
+```{r}
+#time of day plot
+latest_data$time_day <- factor(latest_data$time_day, levels = c(
+  "Morning Peak (6am-9am)",                            
+  "Morning (9am-noon)",                                
+  "Afternoon (noon-3pm)",                              
+  "Afternoon Peak (3pm-6pm)",                          
+  "Evening (6pm-9pm)",                                 
+  "Outside the listed hours (before 6am or after 9pm)"
+))
+
+time_day_plot <- ggplot(data = latest_data) + geom_bar(aes(x = time_day, fill = route))+
+  labs(title = "Time of Day Travelled",
+       subtitle = "By Route",
+       x = "Time of Day",
+       y = "Frequency",
+       fill = "Route Number") +
+  scale_fill_manual(values = c(
+    "24B" = "red",
+    "24R" = "blue")) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+time_day_plot
+```
+
+
+### Finally, as an indicator of how busy the bus was at the time of travel, the method of travel plot can be analysed. This shows how the passenger travelled on the journey, either seated, standing or a combination of the two. 
+
+```{r}
+#method plot
+method_plot <-ggplot(data = latest_data) + geom_bar(aes(x = sit_stand, fill = route)) +
+  labs(title = "Method Rode on Bus",
+       subtitle = "By Route",
+       x = "Ride Method",
+       y = "Frequency",
+       fill = "Route Number") +  
+  scale_fill_manual(values = c(
+         "24B" = "orange",
+         "24R" = "purple"))
+method_plot
+```
+
