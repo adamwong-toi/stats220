@@ -1,0 +1,132 @@
+---
+title: ~Behind the Timetable~
+subtitle: A Visual Bus Data Journey
+output: html_document
+---
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, error=FALSE)
+library(tidyverse)
+library(magick)
+```
+
+```{js}
+$(function() {
+  $(".level2").css('visibility', 'hidden');
+  $(".level2").first().css('visibility', 'visible');
+  $(".container-fluid").height($(".container-fluid").height() + 300);
+  $(window).on('scroll', function() {
+    $('h2').each(function() {
+      var h2Top = $(this).offset().top - $(window).scrollTop();
+      var windowHeight = $(window).height();
+      if (h2Top >= 0 && h2Top <= windowHeight / 2) {
+        $(this).parent('div').css('visibility', 'visible');
+      } else if (h2Top > windowHeight / 2) {
+        $(this).parent('div').css('visibility', 'hidden');
+      }
+    });
+  });
+})
+```
+
+```{css}
+.figcaption {display: none}
+```
+
+```{css echo=FALSE}
+body {
+  color: black;
+  font-family: Helvetica;
+  background: #B4E5BB 
+}
+
+h1 {
+  background-color:#A0D925;
+  color: black;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  
+}
+
+h2 {
+  background-color:#5F2EAD;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  border-style: double;
+  border-color: #AD2E3C
+}
+
+h3 {
+  background-color:#2120EB;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center
+}
+
+div {
+  text-align: justify;
+  text-justify: inter-word
+}
+
+```
+## Busses Up Sandringham Road
+
+#### This report will analyse a students daily bus commute up Sandringham Road to the University of Auckland. 
+
+The data was collected via Google Form, and stored within the University of Auckland. Analysis will include basic details about the journey, duration prior to boarding, length of the trip, and how the passenger travelled (sitting/standing).
+
+This gives an insight into the user experience on the Sandringham Road bus routes, which could be used as information for optimising the customer experience on Auckland Transport.
+
+```{r}
+bus <- image_read("https://ouraucklandprodstorage.blob.core.windows.net/cache/0/f/3/f/7/1/0f3f717610918c0a8ff40f5fd2a69b1cad1be5c8.jpg") %>% 
+  image_resize("1000x1000") %>% 
+  image_annotate("A Typical Auckland Transport Electric Bus used on the 24B/24R Route", 
+                 gravity = "South",
+                 size = 25,
+                 color = "#5F2EAD",
+                 font = "Impact")
+bus
+
+```
+
+## So, what does happen before getting onto the bus?
+
+![A box plot showing the difference in wait times for the bus, grouped by how on-time the bus was, ranging from Very Early (5 mins or more early), to Very Late (5 mins or more late. There is a much greater range of wait times, for busses that are later, compared to those that are earlier.)](Plot_1.png)
+
+The above plot shows the distribution of wait times, depending on how the bus was running to its schedule. It can be seen that for the data collected, the largest difference in wait times came from buses that were more than 5 minutes late / very late. 
+
+Further exploration could be done, with more data collection and analysis, but it may appear that if a bus is later, that the wait time does increase. Logically this makes intuitive sense, as if the arrival at the bus stop is timed to be in alignment with the timetable, and the bus is running behind schedule, that the wait time at the stop increases. This can be seen as from the Early to Very late categories, the median wait time increases. However, there are still some trips where the bus was running late, where the wait time was not long at all.
+
+For Auckland Transport, this information is valuable in a bigger picture idea to understand the trends of buses running to schedule, which may impact future route or timetable planning on buses, as well as information about how long patrons wait for the bus.
+
+## Is there a pattern here?
+
+![A plot displaying the duration of bus journey, by wait time, coloured by route. A smoothed line has been fit to show a general increase as wait time at the bus stop increases, duration increases.](Plot_2.png)
+
+From this plot, it can be seen that on average, as the wait time increases, the bus duration time increases, however, this is a very small data set, and conclusions are just based on visuals. There is no clear distinction between the routes, and no way of concluding if a particular route is more likely to be on time or have shorter durations.
+
+This still gives an insight into the different bus journies. Longer bus trips may be a result of more passengers, stopping more often, and thus, running later, which in turn could compound into longer wait times for busses. This information would be particularly helpful to further explore when it comes to look at peak usage times, and if there is enough capacity on the routes. 
+
+
+## What about during the journey?
+
+![A heatmap plot showing the average duration of travel for different travel methods, split by day of the week. Faster journies tend to be on days where the travel method is seated the whole time.](Plot_3.png)
+
+The above plot shows represents the different methods travelled, by the day of the week, as well as the average duration of the journey. Overall, the fastest average bus time was on Tuesdays, when seated the whole time. 
+
+There is less data that was collected for the "Seated than standing" variable, as this was less common on bus journeys. Typically once seated, there is less reason to stand up before the end of the journey (unless vacating a seat for a priority passenger). 
+
+
+
+**Final Thoughts**
+
+Although this data is only a small sample size, collected from one person on a specific bus route, the information that is discovered can be of interest to those that research Public Transport, and how future routes/timetables can be implemented.
+
+This visual data story shows a range of different trends and patterns in the data, which could be the basis of future more in-depth research for Auckland Transport. It was interesting to discover the overall patterns of the bus journeys up Sandringham Road on the 24B and 24R bus routes. 
+
